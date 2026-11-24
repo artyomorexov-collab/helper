@@ -737,14 +737,12 @@ function calculate() {
 function saveToSheets() {
     const statusEl = document.getElementById('save-status');
 
-    // Проверка, что расчёт был выполнен
     if (!lastResults || !lastInputs) {
         statusEl.textContent = 'Сначала выполните расчёт.';
         statusEl.className = 'save-status err';
         return;
     }
 
-    // Формирование JSON для отправки
     const payload = {
         variant: '14',
         toolName: 'Несущая способность основания',
@@ -757,25 +755,25 @@ function saveToSheets() {
     statusEl.textContent = 'Отправка данных...';
     statusEl.className = 'save-status';
 
-    // Отправка POST-запроса на Google Apps Script
     fetch(SHEETS_URL, {
         method: 'POST',
-        mode: 'no-cors', // чтобы избежать проблем с CORS при локальном тестировании
+        mode: 'no-cors', // ответ прочитать нельзя, но запрос дойдёт
         headers: {
-            'Content-Type': 'application/json'
+            // text/plain не вызывает preflight-запрос OPTIONS
+            'Content-Type': 'text/plain;charset=utf-8'
         },
         body: JSON.stringify(payload)
     })
     .then(() => {
-        // Из-за режима no-cors мы не можем прочитать ответ, но можем считать,
-        // что запрос отправлен. В реальном приложении лучше использовать
-        // полноценный CORS или прокси.
-        statusEl.textContent = '✅ Данные отправлены в Google Sheets (проверьте таблицу).';
+        // При no-cors мы не знаем, что ответил сервер,
+        // поэтому сообщаем об успешной отправке, а не о сохранении.
+        statusEl.textContent = '✅ Данные отправлены. Проверьте строку в Google Таблице.';
         statusEl.className = 'save-status ok';
     })
-    .catch((error) => {
+    .catch(error => {
         statusEl.textContent = '❌ Ошибка отправки: ' + error.message;
         statusEl.className = 'save-status err';
+        console.error('Ошибка сохранения:', error);
     });
 }
 
