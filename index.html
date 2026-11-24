@@ -736,13 +736,32 @@ function calculate() {
 
 function saveToSheets() {
     const statusEl = document.getElementById('save-status');
-
+    
     if (!lastResults || !lastInputs) {
         statusEl.textContent = 'Сначала выполните расчёт.';
         statusEl.className = 'save-status err';
         return;
     }
 
+    // 1. Создаём невидимый iframe для приёма ответа
+    const iframeName = 'hidden_sheet_saver';
+    let iframe = document.getElementById(iframeName);
+    if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.name = iframeName;
+        iframe.id = iframeName;
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+    }
+
+    // 2. Создаём невидимую форму и нацеливаем её на iframe
+    const form = document.createElement('form');
+    form.action = SHEETS_URL;
+    form.method = 'POST';
+    form.target = iframeName;
+    form.style.display = 'none';
+
+    // 3. Помещаем JSON с данными в скрытое поле
     const payload = {
         variant: '14',
         toolName: 'Несущая способность основания',
@@ -751,32 +770,24 @@ function saveToSheets() {
         conclusion: document.getElementById('conclusion').textContent.trim(),
         warnings: document.getElementById('warning-box').textContent.trim()
     };
+    
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload'; // Имя поля, по которому скрипт найдёт данные
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
 
-    statusEl.textContent = 'Отправка данных...';
-    statusEl.className = 'save-status';
+    // 4. Отправляем форму
+    document.body.appendChild(form);
+    form.submit();
 
-    fetch(SHEETS_URL, {
-        method: 'POST',
-        mode: 'no-cors', // ответ прочитать нельзя, но запрос дойдёт
-        headers: {
-            // text/plain не вызывает preflight-запрос OPTIONS
-            'Content-Type': 'text/plain;charset=utf-8'
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(() => {
-        // При no-cors мы не знаем, что ответил сервер,
-        // поэтому сообщаем об успешной отправке, а не о сохранении.
-        statusEl.textContent = '✅ Данные отправлены. Проверьте строку в Google Таблице.';
-        statusEl.className = 'save-status ok';
-    })
-    .catch(error => {
-        statusEl.textContent = '❌ Ошибка отправки: ' + error.message;
-        statusEl.className = 'save-status err';
-        console.error('Ошибка сохранения:', error);
-    });
+    // 5. Убираем форму после отправки
+    document.body.removeChild(form);
+
+    // Выводим сообщение
+    statusEl.textContent = '✅ Данные отправлены! Проверьте таблицу через 2-3 секунды.';
+    statusEl.className = 'save-status ok';
 }
-
 /* ==========================================================================
    ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
    ========================================================================== */
