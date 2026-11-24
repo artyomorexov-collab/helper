@@ -6,464 +6,150 @@
     <title>Несущая способность основания (СП 22.13330.2016)</title>
     <style>
         /* ========== БАЗОВЫЕ СТИЛИ ========== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            background: #f0f2f5;
-            color: #1e293b;
-            padding: 20px;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 28px 32px 32px;
-        }
-
-        h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 4px;
-            text-align: center;
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 14px;
-            color: #64748b;
-            margin-bottom: 24px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 16px;
-        }
-
-        /* ========== СЕКЦИИ ========== */
-        .section {
-            margin-bottom: 28px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 14px;
-            padding-bottom: 6px;
-            border-bottom: 2px solid #cbd5e1;
-        }
-
-        /* ========== СЕТКА ПОЛЕЙ ========== */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px 20px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px 20px;
-        }
-
-        @media (max-width: 700px) {
-            .grid-2,
-            .grid-3 {
-                grid-template-columns: 1fr;
-            }
-            .container {
-                padding: 20px 18px;
-            }
-        }
-
-        /* ========== ПОЛЯ ВВОДА ========== */
-        .field {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .field label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #475569;
-            margin-bottom: 4px;
-        }
-
-        .field .unit {
-            font-weight: 400;
-            color: #94a3b8;
-            font-size: 12px;
-        }
-
-        .field input,
-        .field select {
-            padding: 10px 12px;
-            border: 1.5px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: inherit;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background: #f8fafc;
-        }
-
-        .field input:focus,
-        .field select:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-            background: #ffffff;
-        }
-
-        .field input.error {
-            border-color: #ef4444;
-            background: #fef2f2;
-        }
-
-        .error-text {
-            color: #ef4444;
-            font-size: 12px;
-            margin-top: 3px;
-            min-height: 16px;
-        }
-
-        /* ========== КНОПКИ ========== */
-        .btn-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 8px;
-        }
-
-        .btn {
-            padding: 12px 28px;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary {
-            background: #2563eb;
-            color: #ffffff;
-            flex: 1;
-            min-width: 180px;
-        }
-
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #1e293b;
-            flex: 0 1 auto;
-        }
-
-        .btn-secondary:hover {
-            background: #cbd5e1;
-        }
-
-        /* ========== РЕЗУЛЬТАТЫ ========== */
-        .results-panel {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px 24px;
-            margin-top: 16px;
-        }
-
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px dashed #e2e8f0;
-            font-size: 15px;
-        }
-
-        .result-row:last-child {
-            border-bottom: none;
-        }
-
-        .result-label {
-            color: #475569;
-        }
-
-        .result-value {
-            font-weight: 600;
-            color: #0f172a;
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* ========== ЗАКЛЮЧЕНИЕ ========== */
-        .conclusion {
-            margin-top: 20px;
-            padding: 16px 20px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            line-height: 1.5;
-            display: none;
-        }
-
-        .conclusion.success {
-            display: block;
-            background: #dcfce7;
-            border: 1.5px solid #22c55e;
-            color: #166534;
-        }
-
-        .conclusion.fail {
-            display: block;
-            background: #fee2e2;
-            border: 1.5px solid #ef4444;
-            color: #991b1b;
-        }
-
-        .conclusion.warning {
-            display: block;
-            background: #fef3c7;
-            border: 1.5px solid #f59e0b;
-            color: #92400e;
-        }
-
-        /* ========== ПРЕДУПРЕЖДЕНИЯ ========== */
-        .warning-box {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 10px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            color: #92400e;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .warning-box.visible {
-            display: block;
-        }
-
-        /* ========== СТАТУС СОХРАНЕНИЯ ========== */
-        .save-status {
-            margin-top: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            min-height: 22px;
-        }
-
-        .save-status.ok {
-            color: #16a34a;
-        }
-
-        .save-status.err {
-            color: #dc2626;
-        }
-
-        /* ========== ПОДСКАЗКИ ========== */
-        .hint {
-            font-size: 12px;
-            color: #94a3b8;
-            margin-top: 4px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #f0f2f5; color: #1e293b; padding: 20px; line-height: 1.5; }
+        .container { max-width: 960px; margin: 0 auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); padding: 28px 32px 32px; }
+        h1 { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 4px; text-align: center; }
+        .subtitle { text-align: center; font-size: 14px; color: #64748b; margin-bottom: 24px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; }
+        .section { margin-bottom: 28px; }
+        .section-title { font-size: 16px; font-weight: 600; color: #334155; margin-bottom: 14px; padding-bottom: 6px; border-bottom: 2px solid #cbd5e1; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+        @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } .container { padding: 20px 18px; } }
+        .field { display: flex; flex-direction: column; }
+        .field label { font-size: 13px; font-weight: 500; color: #475569; margin-bottom: 4px; }
+        .field .unit { font-weight: 400; color: #94a3b8; font-size: 12px; }
+        .field input { padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 15px; font-family: inherit; transition: border-color 0.2s, box-shadow 0.2s; background: #f8fafc; }
+        .field input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); background: #ffffff; }
+        .field input.error { border-color: #ef4444; background: #fef2f2; }
+        .error-text { color: #ef4444; font-size: 12px; margin-top: 3px; min-height: 16px; }
+        .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+        .btn { padding: 12px 28px; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: #2563eb; color: #ffffff; flex: 1; min-width: 180px; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-secondary { background: #e2e8f0; color: #1e293b; flex: 0 1 auto; }
+        .btn-secondary:hover { background: #cbd5e1; }
+        .results-panel { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px 24px; margin-top: 16px; }
+        .result-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 15px; }
+        .result-row:last-child { border-bottom: none; }
+        .result-label { color: #475569; }
+        .result-value { font-weight: 600; color: #0f172a; font-variant-numeric: tabular-nums; }
+        .conclusion { margin-top: 20px; padding: 16px 20px; border-radius: 12px; font-size: 15px; font-weight: 600; line-height: 1.5; display: none; }
+        .conclusion.success { display: block; background: #dcfce7; border: 1.5px solid #22c55e; color: #166534; }
+        .conclusion.fail { display: block; background: #fee2e2; border: 1.5px solid #ef4444; color: #991b1b; }
+        .warning-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 10px 14px; border-radius: 6px; font-size: 13px; color: #92400e; margin-top: 10px; display: none; }
+        .warning-box.visible { display: block; }
+        .save-status { margin-top: 12px; font-size: 14px; font-weight: 500; min-height: 22px; }
+        .save-status.ok { color: #16a34a; }
+        .save-status.err { color: #dc2626; }
+        .hint { font-size: 12px; color: #94a3b8; margin-top: 4px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-
-    <!-- ==================== ЗАГОЛОВОК ==================== -->
     <h1>Несущая способность основания</h1>
-    <p class="subtitle">
-        Проверка подошвы внецентренно нагруженного фундамента по СП 22.13330.2016, п. 5.6.26–5.6.28
-    </p>
+    <p class="subtitle">Проверка подошвы внецентренно нагруженного фундамента по СП 22.13330.2016, п. 5.6.26–5.6.28</p>
 
-    <!-- ==================== БЛОК 1: ИСХОДНЫЕ ДАННЫЕ ==================== -->
     <div class="section">
         <div class="section-title">Исходные данные</div>
-
         <div class="grid-2">
-            <!-- Вертикальная нагрузка -->
             <div class="field">
                 <label for="N">Вертикальная нагрузка N <span class="unit">(кН)</span></label>
                 <input type="number" id="N" step="any" placeholder="например, 1500" value="1500">
                 <div class="error-text" id="err-N"></div>
             </div>
-
-            <!-- Изгибающий момент -->
             <div class="field">
                 <label for="M">Изгибающий момент M <span class="unit">(кН·м)</span></label>
                 <input type="number" id="M" step="any" placeholder="например, 120" value="120">
                 <div class="error-text" id="err-M"></div>
                 <div class="hint">Момент может быть равен нулю (центральная нагрузка).</div>
             </div>
-
-            <!-- Длина подошвы -->
             <div class="field">
                 <label for="l">Длина подошвы l <span class="unit">(м)</span></label>
                 <input type="number" id="l" step="any" placeholder="например, 3.0" value="3.0">
                 <div class="error-text" id="err-l"></div>
                 <div class="hint">Размер вдоль плоскости действия момента.</div>
             </div>
-
-            <!-- Ширина подошвы -->
             <div class="field">
                 <label for="b">Ширина подошвы b <span class="unit">(м)</span></label>
                 <input type="number" id="b" step="any" placeholder="например, 2.0" value="2.0">
                 <div class="error-text" id="err-b"></div>
             </div>
-
-            <!-- Глубина заложения -->
             <div class="field">
                 <label for="d">Глубина заложения d <span class="unit">(м)</span></label>
                 <input type="number" id="d" step="any" placeholder="например, 1.5" value="1.5">
                 <div class="error-text" id="err-d"></div>
             </div>
-
-            <!-- Расчётное сопротивление -->
             <div class="field">
                 <label for="R">Расчётное сопротивление грунта R <span class="unit">(кПа)</span></label>
                 <input type="number" id="R" step="any" placeholder="например, 250" value="250">
                 <div class="error-text" id="err-R"></div>
             </div>
-
-            <!-- Удельный вес (по умолчанию 20) -->
             <div class="field">
                 <label for="gamma">Средневзвешенный удельный вес γ<sub>mt</sub> <span class="unit">(кН/м³)</span></label>
                 <input type="number" id="gamma" step="any" placeholder="по умолчанию 20" value="20">
                 <div class="error-text" id="err-gamma"></div>
             </div>
         </div>
-
-        <!-- Кнопка расчёта -->
         <div class="btn-row">
             <button class="btn btn-primary" onclick="calculate()">Рассчитать</button>
             <button class="btn btn-secondary" onclick="resetForm()">Сбросить</button>
         </div>
     </div>
 
-    <!-- ==================== БЛОК 2: РЕЗУЛЬТАТЫ ==================== -->
     <div class="section" id="results-section" style="display: none;">
         <div class="section-title">Результаты расчёта</div>
-
         <div class="results-panel">
-            <div class="result-row">
-                <span class="result-label">Площадь подошвы A</span>
-                <span class="result-value" id="res-A">—</span>
-            </div>
-            <div class="result-row">
-                <span class="result-label">Момент сопротивления W</span>
-                <span class="result-value" id="res-W">—</span>
-            </div>
-            <div class="result-row">
-                <span class="result-label">Среднее давление p</span>
-                <span class="result-value" id="res-p">—</span>
-            </div>
-            <div class="result-row">
-                <span class="result-label">Эксцентриситет e</span>
-                <span class="result-value" id="res-e">—</span>
-            </div>
-            <div class="result-row">
-                <span class="result-label">Относительный эксцентриситет e/l</span>
-                <span class="result-value" id="res-e-rel">—</span>
-            </div>
-            <div class="result-row">
-                <span class="result-label">Максимальное краевое давление p<sub>max</sub></span>
-                <span class="result-value" id="res-pmax">—</span>
-            </div>
-            <div class="result-row">
-                <span class="result-label">Минимальное краевое давление p<sub>min</sub></span>
-                <span class="result-value" id="res-pmin">—</span>
-            </div>
-            <div class="result-row">
-                <span class="result-label">Допустимое краевое давление 1,2R</span>
-                <span class="result-value" id="res-allow">—</span>
-            </div>
+            <div class="result-row"><span class="result-label">Площадь подошвы A</span><span class="result-value" id="res-A">—</span></div>
+            <div class="result-row"><span class="result-label">Момент сопротивления W</span><span class="result-value" id="res-W">—</span></div>
+            <div class="result-row"><span class="result-label">Среднее давление p</span><span class="result-value" id="res-p">—</span></div>
+            <div class="result-row"><span class="result-label">Эксцентриситет e</span><span class="result-value" id="res-e">—</span></div>
+            <div class="result-row"><span class="result-label">Относительный эксцентриситет e/l</span><span class="result-value" id="res-e-rel">—</span></div>
+            <div class="result-row"><span class="result-label">Максимальное краевое давление p<sub>max</sub></span><span class="result-value" id="res-pmax">—</span></div>
+            <div class="result-row"><span class="result-label">Минимальное краевое давление p<sub>min</sub></span><span class="result-value" id="res-pmin">—</span></div>
+            <div class="result-row"><span class="result-label">Допустимое краевое давление 1,2R</span><span class="result-value" id="res-allow">—</span></div>
         </div>
-
-        <!-- Предупреждение о ловушке -->
         <div class="warning-box" id="warning-box"></div>
-
-        <!-- Заключение -->
         <div class="conclusion" id="conclusion"></div>
     </div>
 
-    <!-- ==================== БЛОК 3: СОХРАНЕНИЕ ==================== -->
     <div class="section" style="margin-top: 20px;">
-        <button class="btn btn-secondary" onclick="saveToSheets()" style="width: 100%;">
-            Сохранить в Google Sheets
-        </button>
+        <button class="btn btn-secondary" onclick="saveToSheets()" style="width: 100%;">Сохранить в Google Sheets</button>
         <div class="save-status" id="save-status"></div>
     </div>
-
 </div>
 
 <script>
-/* ==========================================================================
-   ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
-   ========================================================================== */
-// URL веб-приложения Google Apps Script (замените на свой после развёртывания)
-const SHEETS_URL = 'ВСТАВИТЬ_ВАШ_URL_ИЗ_ПЗ_25';
+// ВАШ РЕАЛЬНЫЙ URL ИЗ СКРИНШОТА (вставлен сюда)
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxv7nZdV-5edcK3RHJoyWv7b_llnggQoY67oMO_tEC34-ztyRK3YqGTD2Kgd29JOjM_/exec';
 
-// Объект для хранения последних результатов (для отправки в Google Sheets)
 let lastResults = null;
 let lastInputs = null;
 
-/* ==========================================================================
-   ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-   ========================================================================== */
-
-/**
- * Безопасное получение числового значения из поля ввода.
- * Возвращает NaN, если поле пустое или содержит не число.
- */
 function getNumber(id) {
     const el = document.getElementById(id);
     const val = el.value.trim();
     if (val === '') return NaN;
-    const num = parseFloat(val.replace(',', '.')); // поддержка запятой
+    const num = parseFloat(val.replace(',', '.'));
     return isNaN(num) ? NaN : num;
 }
 
-/**
- * Установка текста ошибки под полем.
- */
 function setError(id, message) {
     const errEl = document.getElementById('err-' + id);
     const inputEl = document.getElementById(id);
     if (errEl) errEl.textContent = message || '';
     if (inputEl) {
-        if (message) {
-            inputEl.classList.add('error');
-        } else {
-            inputEl.classList.remove('error');
-        }
+        if (message) inputEl.classList.add('error');
+        else inputEl.classList.remove('error');
     }
 }
 
-/**
- * Очистка всех сообщений об ошибках.
- */
 function clearErrors() {
     const ids = ['N', 'M', 'l', 'b', 'd', 'R', 'gamma'];
     ids.forEach(id => setError(id, ''));
 }
 
-/**
- * Сброс формы к значениям по умолчанию и скрытие результатов.
- */
 function resetForm() {
     document.getElementById('N').value = '1500';
     document.getElementById('M').value = '120';
@@ -478,178 +164,92 @@ function resetForm() {
     document.getElementById('warning-box').classList.remove('visible');
 }
 
-/* ==========================================================================
-   ВАЛИДАЦИЯ ВХОДНЫХ ДАННЫХ
-   ========================================================================== */
-
-/**
- * Проверяет все поля и возвращает true, если данные корректны.
- * Устанавливает сообщения об ошибках под соответствующими полями.
- */
 function validateInputs() {
     clearErrors();
     let isValid = true;
 
-    // ---- Вертикальная нагрузка N ----
     const N = getNumber('N');
-    if (isNaN(N)) {
-        setError('N', 'Введите число');
-        isValid = false;
-    } else if (N <= 0) {
-        setError('N', 'Нагрузка должна быть > 0');
-        isValid = false;
-    } else if (N > 1e7) {
-        setError('N', 'Слишком большое значение (макс. 10 000 000 кН)');
-        isValid = false;
-    }
+    if (isNaN(N)) { setError('N', 'Введите число'); isValid = false; }
+    else if (N <= 0) { setError('N', 'Нагрузка должна быть > 0'); isValid = false; }
+    else if (N > 1e7) { setError('N', 'Слишком большое значение'); isValid = false; }
 
-    // ---- Изгибающий момент M ----
     const M = getNumber('M');
-    if (isNaN(M)) {
-        setError('M', 'Введите число (можно 0)');
-        isValid = false;
-    } else if (Math.abs(M) > 1e7) {
-        setError('M', 'Слишком большое значение момента');
-        isValid = false;
-    }
+    if (isNaN(M)) { setError('M', 'Введите число (можно 0)'); isValid = false; }
+    else if (Math.abs(M) > 1e7) { setError('M', 'Слишком большое значение'); isValid = false; }
 
-    // ---- Длина подошвы l ----
     const l = getNumber('l');
-    if (isNaN(l)) {
-        setError('l', 'Введите число');
-        isValid = false;
-    } else if (l <= 0) {
-        setError('l', 'Длина должна быть > 0');
-        isValid = false;
-    } else if (l > 100) {
-        setError('l', 'Слишком большая длина (макс. 100 м)');
-        isValid = false;
-    }
+    if (isNaN(l)) { setError('l', 'Введите число'); isValid = false; }
+    else if (l <= 0) { setError('l', 'Длина должна быть > 0'); isValid = false; }
+    else if (l > 100) { setError('l', 'Максимум 100 м'); isValid = false; }
 
-    // ---- Ширина подошвы b ----
     const b = getNumber('b');
-    if (isNaN(b)) {
-        setError('b', 'Введите число');
-        isValid = false;
-    } else if (b <= 0) {
-        setError('b', 'Ширина должна быть > 0');
-        isValid = false;
-    } else if (b > 100) {
-        setError('b', 'Слишком большая ширина (макс. 100 м)');
-        isValid = false;
-    }
+    if (isNaN(b)) { setError('b', 'Введите число'); isValid = false; }
+    else if (b <= 0) { setError('b', 'Ширина должна быть > 0'); isValid = false; }
+    else if (b > 100) { setError('b', 'Максимум 100 м'); isValid = false; }
 
-    // ---- Глубина заложения d ----
     const d = getNumber('d');
-    if (isNaN(d)) {
-        setError('d', 'Введите число');
-        isValid = false;
-    } else if (d < 0) {
-        setError('d', 'Глубина не может быть отрицательной');
-        isValid = false;
-    } else if (d > 50) {
-        setError('d', 'Слишком большая глубина (макс. 50 м)');
-        isValid = false;
-    }
+    if (isNaN(d)) { setError('d', 'Введите число'); isValid = false; }
+    else if (d < 0) { setError('d', 'Глубина не может быть отрицательной'); isValid = false; }
+    else if (d > 50) { setError('d', 'Максимум 50 м'); isValid = false; }
 
-    // ---- Расчётное сопротивление R ----
     const R = getNumber('R');
-    if (isNaN(R)) {
-        setError('R', 'Введите число');
-        isValid = false;
-    } else if (R <= 0) {
-        setError('R', 'Сопротивление должно быть > 0');
-        isValid = false;
-    } else if (R > 10000) {
-        setError('R', 'Слишком большое сопротивление (макс. 10 000 кПа)');
-        isValid = false;
-    }
+    if (isNaN(R)) { setError('R', 'Введите число'); isValid = false; }
+    else if (R <= 0) { setError('R', 'Сопротивление должно быть > 0'); isValid = false; }
+    else if (R > 10000) { setError('R', 'Максимум 10 000 кПа'); isValid = false; }
 
-    // ---- Удельный вес gamma ----
     const gamma = getNumber('gamma');
-    if (isNaN(gamma)) {
-        setError('gamma', 'Введите число');
-        isValid = false;
-    } else if (gamma <= 0) {
-        setError('gamma', 'Удельный вес должен быть > 0');
-        isValid = false;
-    } else if (gamma > 50) {
-        setError('gamma', 'Слишком большой удельный вес (макс. 50 кН/м³)');
-        isValid = false;
-    }
+    if (isNaN(gamma)) { setError('gamma', 'Введите число'); isValid = false; }
+    else if (gamma <= 0) { setError('gamma', 'Удельный вес должен быть > 0'); isValid = false; }
+    else if (gamma > 50) { setError('gamma', 'Максимум 50 кН/м³'); isValid = false; }
 
     return isValid;
 }
 
-/* ==========================================================================
-   ОСНОВНАЯ ФУНКЦИЯ РАСЧЁТА
-   ========================================================================== */
-
 function calculate() {
-    // 1. Проверка входных данных
     if (!validateInputs()) {
         document.getElementById('results-section').style.display = 'none';
         return;
     }
 
-    // 2. Считывание значений (все размеры уже в метрах, нагрузки в кН, момент в кН·м)
-    const N = getNumber('N');          // кН
-    const M = Math.abs(getNumber('M')); // кН·м (берём по модулю, направление не учитываем)
-    const l = getNumber('l');          // м
-    const b = getNumber('b');          // м
-    const d = getNumber('d');          // м
-    const R = getNumber('R');          // кПа
-    const gamma = getNumber('gamma');  // кН/м³
+    const N = getNumber('N');
+    const M = Math.abs(getNumber('M'));
+    const l = getNumber('l');
+    const b = getNumber('b');
+    const d = getNumber('d');
+    const R = getNumber('R');
+    const gamma = getNumber('gamma');
 
-    // 3. Вычисление промежуточных величин
-    const A = l * b;                   // площадь подошвы, м²
-    const W = (b * l * l) / 6;         // момент сопротивления вдоль длинной стороны l, м³
-    const N_total = N + gamma * d * A; // полная вертикальная сила с учётом веса фундамента и грунта, кН
-    const p = N_total / A;             // среднее давление под подошвой, кПа
+    const A = l * b;
+    const W = (b * l * l) / 6;
+    const N_total = N + gamma * d * A;
+    const p = N_total / A;
+    const e = M / N_total;
+    const e_rel = e / l;
 
-    // Эксцентриситет равнодействующей (по формуле 5.14 СП 22.13330.2016)
-    const e = M / N_total;             // м
-    const e_rel = e / l;               // относительный эксцентриситет
-
-    // 4. Определение краевых давлений в зависимости от относительного эксцентриситета
     let p_max, p_min;
-
     if (e_rel <= 1 / 6) {
-        // Трапециевидная эпюра (формула 5.11)
         p_max = p + M / W;
         p_min = p - M / W;
     } else {
-        // Треугольная эпюра с отрывом подошвы (формула 5.12)
-        // C0 — расстояние от точки приложения равнодействующей до края фундамента
-        const C0 = l / 2 - e;          // м
-        // Проверка, что C0 > 0 (иначе равнодействующая вне подошвы — ошибка)
+        const C0 = l / 2 - e;
         if (C0 <= 0) {
-            // Это критическая ошибка: момент слишком велик, фундамент опрокидывается
             p_max = Infinity;
             p_min = 0;
         } else {
-            p_max = (2 * N_total) / (3 * b * C0); // кПа
-            p_min = 0; // при отрыве минимальное давление равно нулю
+            p_max = (2 * N_total) / (3 * b * C0);
+            p_min = 0;
         }
     }
 
-    // 5. Допустимое краевое давление (п. 5.6.26 СП 22.13330.2016)
-    const allow_pmax = 1.2 * R;        // кПа
+    const allow_pmax = 1.2 * R;
 
-    // 6. Формирование результатов
     lastInputs = { N, M, l, b, d, R, gamma };
     lastResults = {
-        A: A.toFixed(2),
-        W: W.toFixed(2),
-        p: p.toFixed(1),
-        e: e.toFixed(3),
-        e_rel: e_rel.toFixed(3),
-        p_max: p_max === Infinity ? '∞' : p_max.toFixed(1),
-        p_min: p_min.toFixed(1),
-        allow_pmax: allow_pmax.toFixed(1)
+        A: A.toFixed(2), W: W.toFixed(2), p: p.toFixed(1), e: e.toFixed(3),
+        e_rel: e_rel.toFixed(3), p_max: p_max === Infinity ? '∞' : p_max.toFixed(1),
+        p_min: p_min.toFixed(1), allow_pmax: allow_pmax.toFixed(1)
     };
 
-    // 7. Вывод числовых результатов на страницу
     document.getElementById('res-A').textContent = lastResults.A + ' м²';
     document.getElementById('res-W').textContent = lastResults.W + ' м³';
     document.getElementById('res-p').textContent = lastResults.p + ' кПа';
@@ -661,28 +261,12 @@ function calculate() {
 
     document.getElementById('results-section').style.display = 'block';
 
-    // 8. Проверка «граничной ловушки»: игнорирование момента
     const warningBox = document.getElementById('warning-box');
     let warnings = [];
-
-    if (M === 0) {
-        warnings.push('⚠ Момент равен нулю. Расчёт выполнен для центральной нагрузки. ' +
-                      'Убедитесь, что в реальной конструкции момент действительно отсутствует.');
-    }
-
-    if (e_rel > 1 / 6) {
-        warnings.push('⚠ Относительный эксцентриситет e/l > 1/6. Происходит частичный отрыв подошвы фундамента от грунта. ' +
-                      'Эпюра давлений треугольная. Проверьте допустимость отрыва для вашего сооружения.');
-    }
-
-    if (e_rel > 1 / 4) {
-        warnings.push('⚠ e/l > 1/4 — значительный эксцентриситет. Рекомендуется увеличить размеры подошвы или применить анкеровку.');
-    }
-
-    if (p_max === Infinity) {
-        warnings.push('⛔ Равнодействующая выходит за пределы подошвы фундамента. Конструкция опрокидывается. ' +
-                      'Необходимо срочно увеличить размеры подошвы или уменьшить момент.');
-    }
+    if (M === 0) warnings.push('⚠ Момент равен нулю. Убедитесь, что в реальной конструкции момент отсутствует.');
+    if (e_rel > 1 / 6) warnings.push('⚠ e/l > 1/6. Происходит отрыв подошвы фундамента от грунта.');
+    if (e_rel > 1 / 4) warnings.push('⚠ e/l > 1/4 — значительный эксцентриситет.');
+    if (p_max === Infinity) warnings.push('⛔ Равнодействующая выходит за пределы подошвы. Конструкция опрокидывается.');
 
     if (warnings.length > 0) {
         warningBox.innerHTML = warnings.join('<br>');
@@ -691,48 +275,25 @@ function calculate() {
         warningBox.classList.remove('visible');
     }
 
-    // 9. Инженерное заключение с цветовой индикацией
     const conclusionEl = document.getElementById('conclusion');
-    conclusionEl.className = 'conclusion'; // сброс классов
-
+    conclusionEl.className = 'conclusion';
     const p_ok = p <= R;
     const pmax_ok = p_max <= allow_pmax;
 
     if (!p_ok && !pmax_ok) {
         conclusionEl.classList.add('fail');
-        conclusionEl.innerHTML =
-            '❌ <strong>Условие не выполнено.</strong> Среднее давление p = ' + p.toFixed(1) +
-            ' кПа > R = ' + R + ' кПа, а также p<sub>max</sub> = ' + (p_max === Infinity ? '∞' : p_max.toFixed(1)) +
-            ' кПа > 1,2R = ' + allow_pmax.toFixed(1) + ' кПа.<br>' +
-            'Требуется увеличить размеры подошвы фундамента или уменьшить нагрузку.';
+        conclusionEl.innerHTML = '❌ Условие не выполнено. p = ' + p.toFixed(1) + ' > R, p_max = ' + (p_max === Infinity ? '∞' : p_max.toFixed(1)) + ' > 1,2R. Требуется увеличить размеры подошвы.';
     } else if (!p_ok) {
         conclusionEl.classList.add('fail');
-        conclusionEl.innerHTML =
-            '❌ <strong>Среднее давление превышает R.</strong> p = ' + p.toFixed(1) + ' кПа > R = ' + R + ' кПа.<br>' +
-            'Требуется увеличить площадь подошвы.';
+        conclusionEl.innerHTML = '❌ Среднее давление превышает R. Требуется увеличить площадь подошвы.';
     } else if (!pmax_ok) {
         conclusionEl.classList.add('fail');
-        conclusionEl.innerHTML =
-            '❌ <strong>Краевое давление превышает 1,2R.</strong> p<sub>max</sub> = ' +
-            (p_max === Infinity ? '∞' : p_max.toFixed(1)) + ' кПа > 1,2R = ' + allow_pmax.toFixed(1) + ' кПа.<br>' +
-            'Требуется увеличить размеры подошвы или уменьшить момент.';
-    } else if (p_max === Infinity) {
-        conclusionEl.classList.add('fail');
-        conclusionEl.innerHTML =
-            '❌ <strong>Конструкция опрокидывается.</strong> Равнодействующая выходит за пределы подошвы.<br>' +
-            'Необходимо увеличить размеры подошвы или уменьшить момент.';
+        conclusionEl.innerHTML = '❌ Краевое давление превышает 1,2R. Требуется увеличить размеры подошвы или уменьшить момент.';
     } else {
         conclusionEl.classList.add('success');
-        conclusionEl.innerHTML =
-            '✅ <strong>Несущая способность обеспечена.</strong> Среднее давление p = ' + p.toFixed(1) +
-            ' кПа ≤ R = ' + R + ' кПа; краевое давление p<sub>max</sub> = ' + p_max.toFixed(1) +
-            ' кПа ≤ 1,2R = ' + allow_pmax.toFixed(1) + ' кПа.';
+        conclusionEl.innerHTML = '✅ Несущая способность обеспечена.';
     }
 }
-
-/* ==========================================================================
-   СОХРАНЕНИЕ В GOOGLE SHEETS
-   ========================================================================== */
 
 function saveToSheets() {
     const statusEl = document.getElementById('save-status');
@@ -752,26 +313,27 @@ function saveToSheets() {
         warnings: document.getElementById('warning-box').textContent.trim()
     };
 
-    // Используем sendBeacon для отправки данных в обход CORS
-    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-    
-    // Метод sendBeacon возвращает true, если данные успешно поставлены в очередь на отправку
-    const isQueued = navigator.sendBeacon(SHEETS_URL, blob);
+    statusEl.textContent = 'Отправка данных...';
+    statusEl.className = 'save-status';
 
-    if (isQueued) {
-        statusEl.textContent = '✅ Данные отправлены в фоне! Проверьте таблицу через 2-3 секунды.';
+    // ИСПОЛЬЗУЕМ FETCH С NO-CORS. ЭТО РАБОТАЕТ В GOOGLE APPS SCRIPT!
+    fetch(SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8' // Обязательно text/plain
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(() => {
+        statusEl.textContent = '✅ Данные отправлены! Проверьте таблицу.';
         statusEl.className = 'save-status ok';
-    } else {
-        statusEl.textContent = '❌ Браузер заблокировал отправку (возможно, из-за размера данных).';
+    })
+    .catch(error => {
+        statusEl.textContent = '❌ Ошибка: ' + error.message;
         statusEl.className = 'save-status err';
-    }
+    });
 }
-/* ==========================================================================
-   ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
-   ========================================================================== */
-// При желании можно автоматически выполнить расчёт при загрузке.
-// Сейчас этого не делаем, чтобы пользователь сам нажал кнопку.
 </script>
-
 </body>
 </html>
